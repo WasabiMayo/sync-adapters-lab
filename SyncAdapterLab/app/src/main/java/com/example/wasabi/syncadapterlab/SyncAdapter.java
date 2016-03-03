@@ -40,24 +40,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         for(int i=0; i<symbols.length; i++) {
             try {
-                URL url = new URL("http://api.nytimes.com/svc/news/v3/content/all/all/all.json?limit=20&api-key=43c2593cabf8806f65a5fc8e4e2db2ce:5:74605114");
+                URL url = new URL("http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol="+symbols[i]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
                 InputStream inStream = connection.getInputStream();
                 String data = getInputData(inStream);
-                wholeData = wholeData + data;
+                wholeData = wholeData + data + ",";
             } catch (Throwable e) {
                 e.printStackTrace();
             }
         }
-
+        wholeData = wholeData.substring(0,wholeData.length()-1);
         wholeData = "{\"stocks\":[" + wholeData + "]}";
 
         Gson gson = new Gson();
         StocksResult result = gson.fromJson(wholeData,StocksResult.class);
 
         for(int i=0; i<result.getStocks().size(); i++) {
-            Log.d("SyncAdapter", "Company name: " + result.getStocks().get(i).getName() + " Last price: " + result.getStocks().get(i).getName());
+            Log.d("SyncAdapter", "Company name: " + result.getStocks().get(i).getName() + " Last price: " + result.getStocks().get(i).getLastPrice());
         }
     }
 
