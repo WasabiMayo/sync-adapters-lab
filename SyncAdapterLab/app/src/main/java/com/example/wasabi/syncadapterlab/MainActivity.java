@@ -19,44 +19,43 @@ public class MainActivity extends AppCompatActivity {
     // A content resolver for accessing the provider
     ContentResolver mResolver;
 
+    Button mButton1, mButton2, mButton3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mButton1 = (Button)findViewById(R.id.button);
+        mButton2 = (Button)findViewById(R.id.button2);
+        mButton3 = (Button)findViewById(R.id.button3);
+
         mAccount = createSyncAccount(this);
 
-        Button manualButton = (Button)findViewById(R.id.button);
-        Button autoButton = (Button)findViewById(R.id.button2);
-        Button fiveMinButton = (Button)findViewById(R.id.button3);
-
-        manualButton.setOnClickListener(new View.OnClickListener() {
+        mButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle settingsBundle = new Bundle();
-                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-                ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED,true);
+                ContentResolver.requestSync(mAccount,AUTHORITY,settingsBundle);
             }
         });
 
-        autoButton.setOnClickListener(new View.OnClickListener() {
+        mButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentResolver.setSyncAutomatically(mAccount, AUTHORITY, true);
+                ContentResolver.setSyncAutomatically(mAccount,AUTHORITY,true);
             }
         });
 
-        fiveMinButton.setOnClickListener(new View.OnClickListener() {
+        mButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContentResolver.addPeriodicSync(
-                        mAccount,
-                        AUTHORITY,
-                        Bundle.EMPTY,
-                        10);
+                ContentResolver.addPeriodicSync(mAccount,AUTHORITY,Bundle.EMPTY,300);
             }
         });
+
+
     }
     public static Account createSyncAccount(Context context){
         Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
