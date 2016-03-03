@@ -26,32 +26,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mButton1 = (Button)findViewById(R.id.button_manual);
-        mButton2 = (Button)findViewById(R.id.button_minute);
-        mButton3 = (Button)findViewById(R.id.button_fiveminutes);
+        mButton1 = (Button)findViewById(R.id.button);
+        mButton2 = (Button)findViewById(R.id.button2);
+        mButton3 = (Button)findViewById(R.id.button3);
+
+        mAccount = createSyncAccount(this);
 
         mButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Bundle settingsBundle = new Bundle();
+                settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED,true);
+                ContentResolver.requestSync(mAccount,AUTHORITY,settingsBundle);
             }
         });
 
         mButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ContentResolver.setSyncAutomatically(mAccount,AUTHORITY,true);
             }
         });
 
         mButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ContentResolver.addPeriodicSync(mAccount,AUTHORITY,Bundle.EMPTY,300);
             }
         });
 
-        mAccount = createSyncAccount(this);
 
     }
     public static Account createSyncAccount(Context context){

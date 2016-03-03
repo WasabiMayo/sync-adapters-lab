@@ -57,7 +57,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         StocksResult result = gson.fromJson(wholeData,StocksResult.class);
 
         for(int i=0; i<result.getStocks().size(); i++) {
-            Log.d("SyncAdapter", "Company name: " + result.getStocks().get(i).getName() + " Last price: " + result.getStocks().get(i).getLastPrice());
+            Log.d("STOCKS", "Company name: " + result.getStocks().get(i).getName() + " Last price: " + result.getStocks().get(i).getLastPrice());
         }
     }
 
